@@ -1,6 +1,6 @@
 
-CC = gcc
-CFLAGS=--std=c99 -Os
+CC = musl-gcc
+CFLAGS=--std=c99 -Os -s
 LDFLAGS=
 all: tictactoe tictactoe-static
 
@@ -10,4 +10,4 @@ tictactoe: tictactoe.o
 
 tictactoe-static: tictactoe.o
 	${CC} -o $@ $^ ${LDFLAGS} -static
-	strip $@
+	strip -S --strip-unneeded $@
