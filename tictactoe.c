@@ -105,40 +105,31 @@ static int about_to_win(int us, int them) {
         return n;                                               \
     if ((us & POS(n)) && !((us & POS(y)) | (them & POS(y))))    \
         return y;
-        
-    //check the corners first
-    if (us & POS(0)) {
-        CHECK(1, 2);
-        CHECK(4, 8);
-        CHECK(3, 6);
-    }   
-    if (us & POS(2)) {
-        CHECK(1, 0);
-        CHECK(4, 6);
-        CHECK(5, 8);
-    }   
-    if (us & POS(6)) {
-        CHECK(3, 0);
-        CHECK(4, 2);
-        CHECK(7, 8);
-    }   
-    if (us & POS(8)) {
-        CHECK(5, 2);
-        CHECK(4, 0);
-        CHECK(7, 6);
-    }
-    //check the edges
-    if (us & POS(1)) {
-        CHECK(4, 7);
-    }   
-    if (us & POS(3)) {
-        CHECK(4, 5);
-    }   
-    if (us & POS(5)) {
-        CHECK(4, 3);
-    }   
-    if (us & POS(7)) {
-        CHECK(4, 1);
+
+    const uint8_t checks[16][3] = {
+        {0, 1, 2},
+        {0, 4, 8},
+        {0, 3, 6},
+        {2, 1, 0},
+        {2, 4, 6},
+        {2, 5, 8},
+        {6, 3, 0},
+        {6, 4, 2},
+        {6, 7, 8},
+        {8, 5, 2},
+        {8, 4, 0},
+        {8, 7, 6},
+        {1, 4, 7},
+        {3, 4, 5},
+        {5, 4, 3},
+        {7, 4, 1}
+    };
+
+    for (int i = 0; i < 16; i++) {
+        const uint8_t *c = checks[i];
+        if (us & POS(c[0])) {
+            CHECK(c[1], c[2]);
+        }
     }
     return -1;
 #undef CHECK
